@@ -1,0 +1,112 @@
+{
+    "models": {
+        "SS_flow_model": {
+            "name": "PartBasedSparseStructureFlowModel",
+            "args": {
+                "resolution": 16,
+                "in_channels": 8,
+                "out_channels": 8,
+                "model_channels": 1024,
+                "cond_channels": 1024,
+                "num_blocks": 24,
+                "num_heads": 16,
+                "mlp_ratio": 4,
+                "patch_size": 1,
+                "pe_mode": "ape",
+                "qk_rms_norm": true,
+                "use_fp16": true,
+                "use_checkpoint": true,
+                "enable_part_embedding":true,
+                "enable_local_cross_attn":true,
+                "enable_global_cross_attn": true,
+                "global_attn_block_ids": [0,2, 4,6, 8,10, 12,14,16,18, 20,22]
+            }
+        },
+        "slat_flow": {
+            "name": "SLatFlowModel_Art",
+            "args": {
+                "resolution": 64,
+                "in_channels": 9,
+                "out_channels": 9,
+                "model_channels": 1024,
+                "cond_channels": 1024,
+                "num_blocks": 24,
+                "num_heads": 16,
+                "mlp_ratio": 4,
+                "patch_size": 2,
+                "num_io_res_blocks": 2,
+                "io_block_channels": [
+                    128
+                ],
+                "pe_mode": "ape",
+                "qk_rms_norm": true,
+                "use_fp16": true
+            }
+        },
+        "Articulation_head": {
+            "name": "ArticulationRegressionHead",
+            "args": {
+                "input_layer_num": 2,
+                "out_layer_num": 3,
+                "feat_dim": 1024,
+                "out_channel": 24,
+                "num_heads": 4,
+                "mlp_ratio": 2.0,
+                "num_arti_blocks": 0,
+                "use_skip_connection": false,
+                "use_checkpoint": false,
+                "share_mod": false,
+                "qk_rms_norm": true,
+                "qk_rms_norm_cross": false,
+                "use_art_as_input": false,
+                "use_fp16": true
+            }
+        }
+    },
+    "slat_arti_dataset": {
+        "name": "ImageConditionedSLat_PartNet",
+        "args": {
+            "latent_model": "dinov2_vitl14_reg_slat_enc_swin8_B_64l8_fp16",
+            "split_info_json": "../data_split.json",
+            "is_predict_arti_info": true,
+            "image_size": 518,
+            "vis_video": true,
+            "adding_slat_noise": false,
+            "normalization": {
+                "mean": [
+                    -2.1687545776367188,
+                    -0.004347046371549368,
+                    -0.13352349400520325,
+                    -0.08418072760105133,
+                    -0.5271206498146057,
+                    0.7238689064979553,
+                    -1.1414450407028198,
+                    1.2039363384246826
+                ],
+                "std": [
+                    2.377650737762451,
+                    2.386378288269043,
+                    2.124418020248413,
+                    2.1748552322387695,
+                    2.663944721221924,
+                    2.371192216873169,
+                    2.6217446327209473,
+                    2.684523105621338
+                ]
+            },
+            "pretrained_slat_dec": "models--microsoft--TRELLIS-image-large/snapshots/25e0d31ffbebe4b5a97464dd851910efc3002d96/ckpts/slat_dec_gs_swin8_B_64l8gs32_fp16",
+            "pretrained_slat_dec_mesh": "models--microsoft--TRELLIS-image-large/snapshots/25e0d31ffbebe4b5a97464dd851910efc3002d96/ckpts/slat_dec_mesh_swin8_B_64l8m256c_fp16"
+        }
+    },
+    "ss_dataset": {
+        "name": "ImageConditionedPartBasedSparseStructureLatent",
+        "args": {
+            "is_sorted_mask_bottom_up": false,
+            "latent_model": "ss_enc_conv3d_16l8_fp16",
+            "use_imgs_instance": true,
+            "min_aesthetic_score": 4.5,
+            "image_size": 518,
+            "pretrained_ss_dec": "microsoft/TRELLIS-image-large/ckpts/ss_dec_conv3d_16l8_fp16"
+        }
+    }
+}

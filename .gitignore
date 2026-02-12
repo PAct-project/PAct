@@ -1,0 +1,15 @@
+__pycache__/
+output/
+ckpt/
+ckpts/
+.DS_Store
+tmp/
+debug_images/
+dataset
+data
+./assets/*
+./vscode/*
+./Datasets/*
+preprocesss
+outputs
+*_preview_mask.png
