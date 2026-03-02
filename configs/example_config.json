@@ -63,41 +63,6 @@
             }
         }
     },
-    "slat_arti_dataset": {
-        "name": "ImageConditionedSLat_PartNet",
-        "args": {
-            "latent_model": "dinov2_vitl14_reg_slat_enc_swin8_B_64l8_fp16",
-            "split_info_json": "../data_split.json",
-            "is_predict_arti_info": true,
-            "image_size": 518,
-            "vis_video": true,
-            "adding_slat_noise": false,
-            "normalization": {
-                "mean": [
-                    -2.1687545776367188,
-                    -0.004347046371549368,
-                    -0.13352349400520325,
-                    -0.08418072760105133,
-                    -0.5271206498146057,
-                    0.7238689064979553,
-                    -1.1414450407028198,
-                    1.2039363384246826
-                ],
-                "std": [
-                    2.377650737762451,
-                    2.386378288269043,
-                    2.124418020248413,
-                    2.1748552322387695,
-                    2.663944721221924,
-                    2.371192216873169,
-                    2.6217446327209473,
-                    2.684523105621338
-                ]
-            },
-            "pretrained_slat_dec": "models--microsoft--TRELLIS-image-large/snapshots/25e0d31ffbebe4b5a97464dd851910efc3002d96/ckpts/slat_dec_gs_swin8_B_64l8gs32_fp16",
-            "pretrained_slat_dec_mesh": "models--microsoft--TRELLIS-image-large/snapshots/25e0d31ffbebe4b5a97464dd851910efc3002d96/ckpts/slat_dec_mesh_swin8_B_64l8m256c_fp16"
-        }
-    },
     "ss_dataset": {
         "name": "ImageConditionedPartBasedSparseStructureLatent",
         "args": {

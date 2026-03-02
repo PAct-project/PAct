@@ -17,7 +17,7 @@ This repository currently focuses on inference with the `PActPipeline`, while th
 | Stage | Deliverable | Target Date | Notes |
 | --- | --- | --- | --- |
 | Inference Release | Cleaned `infer_imgs.py`, pretrained checkpoints, sample configs. | 2026-02-07 | ✅ available now. |
-| Dataset Recipes | Detailed docs + scripts for preparing datasets. | 2026-05-01 | In progress. |
+| Dataset Preprocessing | Detailed docs + scripts for preparing datasets +  mask labeling (VLM+SAM). | 2026-05-01 | In progress. |
 | Training Stage 1 | Sparse-structure (SS-Flow) training scripts + configs. | 2026-05-01 | In progress.  |
 | Training Stage 2 | SLAT articulation training pipeline + evaluation metrics. | 2026-05-01 |In progress.  |
 
@@ -43,7 +43,8 @@ Dates reflect our best-effort plan; we will update this table and tag releases i
 ```bash
 python app.py
 ```
-For convenience, we provide a Hugging Face demo that also allows downloading exported URDFs. The exported URDF files can be viewed in VS-Code with [URDF Visualizer](https://marketplace.visualstudio.com/items?itemName=morningfrog.urdf-visualizer)
+For convenience, we provide a Hugging Face demo that also allows downloading exported URDFs. The exported URDF files can be interactively viewed in VS-Code with [URDF Visualizer](https://marketplace.visualstudio.com/items?itemName=morningfrog.urdf-visualizer).
+![teaser](assets/doc/urdf_vis_ext.png)
 ## 4. Inference via scritps
 
 
@@ -53,14 +54,13 @@ Call the batch inference script with your config and overrides:
 
 ```bash
 python infer_imgs.py \
-  --config configs/generation/example.json \
   --data_dir assets/real_world_examples \
   --outdir outputs/real_world \
   --batch_size 2 \
-  --save_glb --export_arti_objects --test_only
+  --save_glb --export_arti_objects 
 ```
 
-Results (videos, GLBs, Gaussian splats, logs) are written under the `--outdir` folder in subdirectories named with your sampling configuration and random seed.
+Results (videos, GLBs, Gaussian splats, logs) are written under the `--outdir` folder in subdirectories named with your sampling configuration and random seed.  Generation process of an object typically takes ~15s, comparable to TRELLIS; exporting a mesh is optional, but the subsequent textured-mesh step can be significantly more time-consuming.
 
 ### 4.2 Key Arguments
 
@@ -115,5 +115,31 @@ TBD
 ## 5. Citation
 
 If you build upon this work, please cite the PAct paper / project page (bibtex to be added with the formal release):
+```
+@article{xxx2026PAct,
+    title   = {PAct: Part-Decomposed Single-View Articulated Object Generation},
+    author  = {xxx},
+    journal = {xxx},
+    year    = {2026}
+}.
+```
 
-Happy hacking and let us know what you build! 🎉
+
+And we sincerely thank the authors of TRELLIS and OmniPart, whose codes were used in our work.
+```
+@article{xiang2024structured,
+    title   = {Structured 3D Latents for Scalable and Versatile 3D Generation},
+    author  = {Xiang, Jianfeng and Lv, Zelong and Xu, Sicheng and Deng, Yu and Wang, Ruicheng and Zhang, Bowen and Chen, Dong and Tong, Xin and Yang, Jiaolong},
+    journal = {arXiv preprint arXiv:2412.01506},
+    year    = {2024}
+}.
+```
+
+```bitex
+@article{yang2025omnipart,
+        title={Omnipart: Part-aware 3d generation with semantic decoupling and structural cohesion},
+        author={Yang, Yunhan and Zhou, Yufan and Guo, Yuan-Chen and Zou, Zi-Xin and Huang, Yukun and Liu, Ying-Tian and Xu, Hao and Liang, Ding and Cao, Yan-Pei and Liu, Xihui},
+        journal={arXiv preprint arXiv:2507.06165},
+        year={2025}
+}
+```
